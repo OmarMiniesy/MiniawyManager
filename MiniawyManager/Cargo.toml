@@ -8,3 +8,5 @@ edition = "2021"
 [dependencies]
 fs = "0.0.5"
 procfs = "0.15.1"
+psutil = "3.2.2"
+users = "0.11.0"
