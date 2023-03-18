@@ -27,10 +27,10 @@ fn main() {
         // let total_time = stat.utime + stat.stime;
         // let cpu_percent = 100.0 * total_time as f64 / elapsed_time.as_secs_f64();
 
-        println!("{:?}", status);
-        println!("");
-        println!("{:?}", stat);
-        println!("");
+        // println!("{:?}", status);
+        // println!("");
+        // println!("{:?}", stat);
+        // println!("");
         println!("Name: {}", stat.comm);
         println!("PID: {}", stat.pid);
         println!("Parent PID: {}", stat.ppid);
