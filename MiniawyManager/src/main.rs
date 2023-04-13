@@ -1,5 +1,6 @@
 use procfs::process::Process;
 use procfs::process::all_processes;
+use procfs::Meminfo;
 use users::{get_user_by_uid, User, get_group_by_gid, Group};
 use std::fs;
 use sysinfo::{System, SystemExt, ProcessExt, NetworkExt};
@@ -8,6 +9,10 @@ fn main() {
 
     // let mut system = System::new_all();
     // system.refresh_all();
+    let meminfo = Meminfo::new().unwrap();
+    let total_memory = meminfo.mem_total;
+
+    println!("Total memory: {} kB", total_memory);
 
     for process in all_processes().unwrap() {
         let process = process.unwrap();
@@ -15,14 +20,8 @@ fn main() {
         let status = process.status().unwrap();
 
         let cputime = stat.utime + stat.stime;
-
         let starttime = stat.starttime;
         let cpu_usage = 100.0 * cputime as f64/starttime as f64;
-
-        // println!("{:?}", status);
-        // println!("");
-        // println!("{:?}", stat);
-        // println!("");
 
         println!("Name: {}", stat.comm);
         println!("PID: {}", stat.pid);
@@ -30,11 +29,10 @@ fn main() {
         println!("State: {}", stat.state);
         println!("Priority: {}", stat.priority);
         println!("Nice value: {}", stat.nice);
-        println!("Virtual memory size: {}", stat.vsize);
-        println!("Resident set size: {}", stat.rss);
-        println!("Number of threads: {}", stat.num_threads);
+        println!("Memory usage: {:.4}%", 100.0 * stat.rss as f64 / total_memory as f64);
         println!("CPU time: {}", cputime);
         println!("CPU usage: {:.4}%", cpu_usage);
+        println!("Number of threads: {}", stat.num_threads);
         println!("User ID: {}", status.ruid);
         
         match get_user_by_uid(status.ruid) {
