@@ -42,6 +42,49 @@ struct ProcessInfo {
     network_usage: i32,  // we dont have
 }
 
+//merge sort algorithm on a hashmap and prints result
+fn merge_sort_memory_usage(hashmap: &mut HashMap<i32, ProcessInfo>, column: &str) {
+    let mut vec: Vec<_> = hashmap.iter().collect();
+    vec.sort_by(|a, b| a.1.memory_usage.cmp(&b.1.memory_usage));
+    for (key, value) in vec {
+        println!("{}: {}", key, value.memory_usage);
+    }
+}
+//merge sort algorithm on a hashmap and prints result by name
+fn merge_sort_name(hashmap: &mut HashMap<i32, ProcessInfo>, column: &str) {
+    let mut vec: Vec<_> = hashmap.iter().collect();
+    vec.sort_by(|a, b| a.1.name.cmp(&b.1.name));
+    for (key, value) in vec {
+        println!("{}: {}", key, value.name);
+    }
+}
+//merge sort algorithm on a hashmap and prints result by pid
+fn merge_sort_pid(hashmap: &mut HashMap<i32, ProcessInfo>, column: &str) {
+    let mut vec: Vec<_> = hashmap.iter().collect();
+    vec.sort_by(|a, b| a.1.pid.cmp(&b.1.pid));
+    for (key, value) in vec {
+        println!("{}: {}", key, value.pid);
+    }
+}
+//merge sort algorithm on a hashmap and prints result by cpu usage
+// fn merge_sort_cpu_usage(hashmap: &mut HashMap<i32, ProcessInfo>, column: &str) {
+//     let mut vec: Vec<_> = hashmap.iter().collect();
+//     vec.sort_by(|a, b| a.1.cpu_usage.cmp(&b.1.cpu_usage));
+//     for (key, value) in vec {
+//         println!("{}: {:.4}%", key, value.cpu_usage);
+//     }
+// }
+
+//helper function to call the desired sort function
+fn sort(hashmap: &mut HashMap<i32, ProcessInfo>, column: &str) {
+    match column {
+        "memory_usage" => merge_sort_memory_usage(hashmap, column),
+        "name" => merge_sort_name(hashmap, column),
+        "pid" => merge_sort_pid(hashmap, column),
+        //"cpu_usage" => merge_sort_cpu_usage(hashmap, column),
+        _ => println!("Invalid column name"),
+    }
+}
 
 fn main() {
     
@@ -93,7 +136,7 @@ fn main() {
             files_opened: count_files as i32,
             cpu_usage: cpu_usage,
             cpu_time: stat.utime + stat.stime,
-            memory_usage: 0,
+            memory_usage: used_memory_in_kb as i32,
             network_usage: 0,
         });
     
@@ -119,10 +162,12 @@ fn main() {
     //     println!("");
     // }
 
-    println!("PID \t NAME \t PPID \t STATE \t PRIORITY \t NICE \t NUM_THREADS \t USER_ID \t USER_NAME \t GROUP_ID \t GROUP_NAME \t FILES_OPENED \t CPU_USAGE \t CPU_TIME \t MEMORY_USAGE \t NETWORK_USAGE");
-    for (key,value) in process_structure.iter(){
-        println!("{} \t {} \t {} \t {} \t {} \t {} \t {} \t {} \t {} \t {} \t {} \t {} \t {:.4} \t {} \t {} \t {} \t  ", key, value.name, value.ppid, value.state, value.priority, value.nice, value.num_threads, value.user_id, value.user_name, value.group_id, value.group_name, value.files_opened, value.cpu_usage, value.cpu_time, value.memory_usage, value.network_usage);
-    }
+    // // print table
+    // println!("PID \t NAME \t PPID \t STATE \t PRIORITY \t NICE \t NUM_THREADS \t USER_ID \t USER_NAME \t GROUP_ID \t GROUP_NAME \t FILES_OPENED \t CPU_USAGE \t CPU_TIME \t MEMORY_USAGE \t NETWORK_USAGE");
+    // for (key,value) in process_structure.iter(){
+    //     println!("{} \t {} \t {} \t {} \t {} \t {} \t {} \t {} \t {} \t {} \t {} \t {} \t {:.4} \t {} \t {} \t {} \t  ", key, value.name, value.ppid, value.state, value.priority, value.nice, value.num_threads, value.user_id, value.user_name, value.group_id, value.group_name, value.files_opened, value.cpu_usage, value.cpu_time, value.memory_usage, value.network_usage);
+    // }
+    sort(&mut process_structure, "name");
 
     // //for loop for sysinfo
     // for (pid, process) in system.processes() {
