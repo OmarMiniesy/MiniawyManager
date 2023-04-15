@@ -42,36 +42,39 @@ struct ProcessInfo {
     network_usage: i32,  // we dont have
 }
 
-//merge sort algorithm on a hashmap and prints result
+//merge sort by memory usage
 fn merge_sort_memory_usage(hashmap: &mut HashMap<i32, ProcessInfo>, column: &str) {
     let mut vec: Vec<_> = hashmap.iter().collect();
     vec.sort_by(|a, b| a.1.memory_usage.cmp(&b.1.memory_usage));
     for (key, value) in vec {
         println!("{}: {}", key, value.memory_usage);
+        //println!("{}: {} {} {} {} {} {} {} {} {} {} {} {} {} {} {}", key, value.memory_usage, value.pid, value.name, value.ppid, value.state, value.priority, value.nice, value.num_threads, value.user_id, value.user_name, value.group_id, value.group_name, value.files_opened, value.cpu_usage, value.cpu_time);
     }
 }
-//merge sort algorithm on a hashmap and prints result by name
+//merge sort by name
 fn merge_sort_name(hashmap: &mut HashMap<i32, ProcessInfo>, column: &str) {
     let mut vec: Vec<_> = hashmap.iter().collect();
     vec.sort_by(|a, b| a.1.name.cmp(&b.1.name));
     for (key, value) in vec {
         println!("{}: {}", key, value.name);
+        //println!("{}: {} {} {} {} {} {} {} {} {} {} {} {} {} {} {}", key, value.name, value.pid, value.memory_usage, value.ppid, value.state, value.priority, value.nice, value.num_threads, value.user_id, value.user_name, value.group_id, value.group_name, value.files_opened, value.cpu_usage, value.cpu_time);
     }
 }
-//merge sort algorithm on a hashmap and prints result by pid
+//merge sort by pid
 fn merge_sort_pid(hashmap: &mut HashMap<i32, ProcessInfo>, column: &str) {
     let mut vec: Vec<_> = hashmap.iter().collect();
     vec.sort_by(|a, b| a.1.pid.cmp(&b.1.pid));
     for (key, value) in vec {
         println!("{}: {}", key, value.pid);
+        //println!("{}: {} {} {} {} {} {} {} {} {} {} {} {} {} {} {}", key, value.pid, value.memory_usage, value.name, value.ppid, value.state, value.priority, value.nice, value.num_threads, value.user_id, value.user_name, value.group_id, value.group_name, value.files_opened, value.cpu_usage, value.cpu_time);
     }
 }
-//merge sort algorithm on a hashmap and prints result by cpu usage
-// fn merge_sort_cpu_usage(hashmap: &mut HashMap<i32, ProcessInfo>, column: &str) {
+//merge sort by cpu time
+// fn merge_sort_cpu_time(hashmap: &mut HashMap<i32, ProcessInfo>, column: &str) {
 //     let mut vec: Vec<_> = hashmap.iter().collect();
-//     vec.sort_by(|a, b| a.1.cpu_usage.cmp(&b.1.cpu_usage));
+//     vec.sort_by(|a, b| a.1.cpu_time.cmp(&b.1.cpu_time));
 //     for (key, value) in vec {
-//         println!("{}: {:.4}%", key, value.cpu_usage);
+//         println!("{}: {:.4}%", key, value.cpu_time);
 //     }
 // }
 
@@ -81,10 +84,61 @@ fn sort(hashmap: &mut HashMap<i32, ProcessInfo>, column: &str) {
         "memory_usage" => merge_sort_memory_usage(hashmap, column),
         "name" => merge_sort_name(hashmap, column),
         "pid" => merge_sort_pid(hashmap, column),
-        //"cpu_usage" => merge_sort_cpu_usage(hashmap, column),
+        //"cpu_time" => merge_sort_cpu_time(hashmap, column),
         _ => println!("Invalid column name"),
     }
 }
+//function to filter the hashmap by column
+fn filter(hashmap: &mut HashMap<i32, ProcessInfo>, column: &str, value: &str) {
+    match column {
+        "memory_usage" => {
+            let value = value.parse::<i32>().unwrap();
+            hashmap.retain(|_, v| v.memory_usage == value);
+        },
+        "name" => {
+            hashmap.retain(|_, v| v.name == value);
+        },
+        "pid" => {
+            let value = value.parse::<i32>().unwrap();
+            hashmap.retain(|_, v| v.pid == value);
+        },
+        "cpu_time" => {
+            let value = value.parse::<u64>().unwrap();
+            hashmap.retain(|_, v| v.cpu_time == value);
+        },
+        "ppid" => {
+            let value = value.parse::<i32>().unwrap();
+            hashmap.retain(|_, v| v.ppid == value);
+        },
+        "state" => {
+            hashmap.retain(|_, v| v.state == value.chars().next().unwrap());
+        },
+        "priority" => {
+            let value = value.parse::<i64>().unwrap();
+            hashmap.retain(|_, v| v.priority == value);
+        },
+        "user_id" => {
+            let value = value.parse::<u32>().unwrap();
+            hashmap.retain(|_, v| v.user_id == value);
+        },
+        "user_name" => {
+            hashmap.retain(|_, v| v.user_name == value);
+        },
+        "group_id" => {
+            let value = value.parse::<u32>().unwrap();
+            hashmap.retain(|_, v| v.group_id == value);
+        },
+        "group_name" => {
+            hashmap.retain(|_, v| v.group_name == value);
+        },
+        _ => println!("Invalid column name"),
+    }
+    //print the filtered hashmap
+    for (key, value) in hashmap {
+        println!("{} {} {} {} {} {} {} {} {} {} {} {} {} {} {}", value.pid, value.memory_usage, value.name, value.ppid, value.state, value.priority, value.nice, value.num_threads, value.user_id, value.user_name, value.group_id, value.group_name, value.files_opened, value.cpu_usage, value.cpu_time);
+}
+}
+
 
 fn main() {
     
@@ -167,7 +221,8 @@ fn main() {
     // for (key,value) in process_structure.iter(){
     //     println!("{} \t {} \t {} \t {} \t {} \t {} \t {} \t {} \t {} \t {} \t {} \t {} \t {:.4} \t {} \t {} \t {} \t  ", key, value.name, value.ppid, value.state, value.priority, value.nice, value.num_threads, value.user_id, value.user_name, value.group_id, value.group_name, value.files_opened, value.cpu_usage, value.cpu_time, value.memory_usage, value.network_usage);
     // }
-    sort(&mut process_structure, "name");
+    //sort(&mut process_structure, "memory_usage");
+    filter(&mut process_structure, "user_name", "colord");
 
     // //for loop for sysinfo
     // for (pid, process) in system.processes() {
