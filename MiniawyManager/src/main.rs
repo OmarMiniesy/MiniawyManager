@@ -87,7 +87,6 @@ fn main() {
         });
     }
     
-    
     // for loop for sysinfo
     for (pid, process) in system.processes() {
         let val:u32 = process.pid().as_u32();

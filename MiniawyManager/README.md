@@ -1,7 +1,7 @@
 ### Missing Data
 > cpu usage in percent.
 
-> network usage in bytes
+> network usage in bytes.
 
 ### Flags and Functions
 > print table, with rows and columns    `-T`
@@ -14,8 +14,10 @@
 
 > filter and sort table                 `-C <column> <value> -S <column>`
 
-### Active Management To Do
-> kill process
+> Kill process given PID                `-K <pid>`
+
+### Active Management To Do (Check permissions)
+> kill process.
 
 > Change priority. Only go down
 
@@ -24,4 +26,10 @@
 
 >  graphs
 
-> 
+### Things to fix
+
+> The printing in the sorting functions.
+
+### Things to Do
+
+> Command line arguments and flags.
