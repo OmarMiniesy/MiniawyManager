@@ -15,21 +15,6 @@ use crate::filtering::filtering_functions::*;
 mod printing;
 use crate::printing::printing_functions::*;
 
-// cpu usage in percent
-// network usage in bytes
-
-// print table, with rows and columns   -T
-// sort table, by column                -S <column>
-// search table by name/pid             -F <name/pid>
-// filter table by column               -C <column> <value>   // cpu usage, memory usage, user, group, state
-// filter and sort table                -C <column> <value> -S <column>
-
-// kill process
-// change priority  // only go down
-
-// tree structure
-
-// graphs
 
 pub struct ProcessInfo {
     pid: i32,
@@ -49,7 +34,6 @@ pub struct ProcessInfo {
     memory_usage: i32,
     network_usage: i32,  // we dont have
 }
-
 
 fn main() {
     
