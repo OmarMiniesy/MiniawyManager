@@ -6,7 +6,15 @@ use sysinfo::{System, SystemExt, ProcessExt, NetworkExt, Pid, PidExt, ProcessSta
 use libc::{sysconf, _SC_CLK_TCK};
 use std::collections::HashMap;
 
-// missing information
+mod sorting;
+use crate::sorting::sorting_functions::*;
+
+mod filtering;
+use crate::filtering::filtering_functions::*;
+
+mod printing;
+use crate::printing::printing_functions::*;
+
 // cpu usage in percent
 // network usage in bytes
 
@@ -23,7 +31,7 @@ use std::collections::HashMap;
 
 // graphs
 
-struct ProcessInfo {
+pub struct ProcessInfo {
     pid: i32,
     name: String,
     ppid: i32,      // print tree
@@ -42,134 +50,6 @@ struct ProcessInfo {
     network_usage: i32,  // we dont have
 }
 
-//helper function to call the desired sort function
-fn sort(hashmap: &mut HashMap<u32, ProcessInfo>, column: &str) {
-    match column {
-        "memory_usage" => sort_memory_usage(hashmap, column),
-        "name" => sort_name(hashmap, column),
-        "pid" => sort_pid(hashmap, column),
-        //"cpu_time" => sort_cpu_time(hashmap, column),
-        "cpu_usage" => sort_cpu_usage(hashmap, column),
-        _ => println!("Invalid column name"),
-    }
-}
-//sort by memory usage
-fn sort_memory_usage(hashmap: &mut HashMap<u32, ProcessInfo>, column: &str) {
-    let mut vec: Vec<_> = hashmap.iter().collect();
-    vec.sort_by(|a, b| a.1.memory_usage.cmp(&b.1.memory_usage));
-    for (key, value) in vec {
-        println!("{}: {}", key, value.memory_usage);
-        //println!("{}: {} {} {} {} {} {} {} {} {} {} {} {} {} {} {}", key, value.memory_usage, value.pid, value.name, value.ppid, value.state, value.priority, value.nice, value.num_threads, value.user_id, value.user_name, value.group_id, value.group_name, value.files_opened, value.cpu_usage, value.cpu_time);
-    }
-}
-//sort by name
-fn sort_name(hashmap: &mut HashMap<u32, ProcessInfo>, column: &str) {
-    let mut vec: Vec<_> = hashmap.iter().collect();
-    vec.sort_by(|a, b| a.1.name.cmp(&b.1.name));
-    for (key, value) in vec {
-        println!("{}: {}", key, value.name);
-        //println!("{}: {} {} {} {} {} {} {} {} {} {} {} {} {} {} {}", key, value.name, value.pid, value.memory_usage, value.ppid, value.state, value.priority, value.nice, value.num_threads, value.user_id, value.user_name, value.group_id, value.group_name, value.files_opened, value.cpu_usage, value.cpu_time);
-    }
-}
-//sort by pid
-fn sort_pid(hashmap: &mut HashMap<u32, ProcessInfo>, column: &str) {
-    let mut vec: Vec<_> = hashmap.iter().collect();
-    vec.sort_by(|a, b| a.1.pid.cmp(&b.1.pid));
-    for (key, value) in vec {
-        println!("{}: {}", key, value.pid);
-        //println!("{}: {} {} {} {} {} {} {} {} {} {} {} {} {} {} {}", key, value.pid, value.memory_usage, value.name, value.ppid, value.state, value.priority, value.nice, value.num_threads, value.user_id, value.user_name, value.group_id, value.group_name, value.files_opened, value.cpu_usage, value.cpu_time);
-    }
-}
-//sort by descending cpu usage
-fn sort_cpu_usage(hashmap: &mut HashMap<u32, ProcessInfo>, column: &str) {
-    let mut vec: Vec<_> = hashmap.iter().collect();
-    vec.sort_by(|a, b| b.1.cpu_usage.partial_cmp(&a.1.cpu_usage).unwrap());
-    for (key, value) in vec {
-        println!("{}: {:.4}%", key, value.cpu_usage);
-    }
-}
-//sort by cpu time
-// fn sort_cpu_time(hashmap: &mut HashMap<i32, ProcessInfo>, column: &str) {
-//     let mut vec: Vec<_> = hashmap.iter().collect();
-//     vec.sort_by(|a, b| a.1.cpu_time.cmp(&b.1.cpu_time));
-//     for (key, value) in vec {
-//         println!("{}: {:.4}%", key, value.cpu_time);
-//     }
-// }
-
-
-//function to filter the hashmap by column
-fn filter(hashmap: &mut HashMap<u32, ProcessInfo>, column: &str, value: &str) {
-    match column {
-        "memory_usage" => {
-            let value = value.parse::<i32>().unwrap();
-            hashmap.retain(|_, v| v.memory_usage == value);
-        },
-        "name" => {
-            hashmap.retain(|_, v| v.name == value);
-        },
-        "pid" => {
-            let value = value.parse::<i32>().unwrap();
-            hashmap.retain(|_, v| v.pid == value);
-        },
-        "cpu_time" => {
-            let value = value.parse::<u64>().unwrap();
-            hashmap.retain(|_, v| v.cpu_time == value);
-        },
-        "ppid" => {
-            let value = value.parse::<i32>().unwrap();
-            hashmap.retain(|_, v| v.ppid == value);
-        },
-        "state" => {
-            hashmap.retain(|_, v| v.state == value.chars().next().unwrap());
-        },
-        "priority" => {
-            let value = value.parse::<i64>().unwrap();
-            hashmap.retain(|_, v| v.priority == value);
-        },
-        "user_id" => {
-            let value = value.parse::<u32>().unwrap();
-            hashmap.retain(|_, v| v.user_id == value);
-        },
-        "user_name" => {
-            hashmap.retain(|_, v| v.user_name == value);
-        },
-        "group_id" => {
-            let value = value.parse::<u32>().unwrap();
-            hashmap.retain(|_, v| v.group_id == value);
-        },
-        "group_name" => {
-            hashmap.retain(|_, v| v.group_name == value);
-        },
-        _ => println!("Invalid column name"),
-    }
-        print_resources(hashmap);
-}
-
-//prints everything
-// fn print_all(hashmap: &mut HashMap<i32, ProcessInfo>) {
-//     println!("PID \t NAME \t\t\t PPID \t STATE \t PRIORITY \t NICE \t NUM_THREADS \t USER_ID \t USER_NAME \t\t\t GROUP_ID \t GROUP_NAME \t FILES_OPENED \t CPU_USAGE \t CPU_TIME \t MEMORY_USAGE \t NETWORK_USAGE");
-//     for (key, value) in hashmap { 
-//         println!("{} \t {} \t\t\t {} \t {} \t {} \t {} \t {} \t {} \t {} \t\t\t {} \t {} \t {} \t {:.4} \t {} \t {} \t {} \t  ", key, value.name, value.ppid, value.state, value.priority, value.nice, value.num_threads, value.user_id, value.user_name, value.group_id, value.group_name, value.files_opened, value.cpu_usage, value.cpu_time, value.memory_usage, value.network_usage);
-//     }
-// }
-
-//prints basic info (RESOURCE USAGE)
-fn print_resources(hashmap: &mut HashMap<u32, ProcessInfo>) {
-    println!(" {:<10}  {:<40}  {:<15}  {:<15}  {:<20}  {:<15}  {:<15}  {:<15}  {:<15} ", "PID", "NAME", "STATE", "USER_ID", "USER_NAME", "FILES_OPENED", "CPU_USAGE", "MEMORY_USAGE", "NETWORK_USAGE");
-    for (key, value) in hashmap { 
-        println!(" {:<10}  {:<40}  {:<15}  {:<15}  {:<20}  {:<15}  {:<15.4}  {:<15} {:<15}", key, value.name, value.state, value.user_id, value.user_name, value.files_opened, value.cpu_usage, value.memory_usage, value.network_usage);
-    }
-   
-}
-//prints other details (PROCESS INFO)
-fn print_details(hashmap: &mut HashMap<u32, ProcessInfo>){
-    println!(" {:<10}  {:<40}  {:<15}  {:<15}  {:<15}  {:<15}  {:<15}  {:<15}  {:<20} {:<15}  {:<15} ", "PID", "NAME", "STATE", "PPID", "PRIORITY", "NICE", "NUM_THREADS", "USER_ID", "USER_NAME", "GROUP_ID", "GROUP_NAME");
-    for (key, value) in hashmap { 
-        println!(" {:<10}  {:<40}  {:<15}  {:<15}  {:<15}  {:<15}  {:<15}  {:<15}  {:<20} {:<15}  {:<15}", key, value.name, value.state, value.ppid, value.priority, value.nice, value.num_threads, value.user_id, value.user_name, value.group_id, value.group_name);
-    }
-
-}
 
 fn main() {
     
@@ -197,7 +77,6 @@ fn main() {
         let elapsed = system.uptime() as f64 * clk_tck as f64 - starttime;
         let process_usage = utime + stime;
         let cpu_usage = process_usage as f64 * 100 as f64 / elapsed;
-
 
         let fd_dir = format!("/proc/{}/fd", stat.pid);
         let count_files = fs::read_dir(fd_dir.clone())
@@ -227,13 +106,11 @@ fn main() {
     
     // for loop for sysinfo
     for (pid, process) in system.processes() {
-            let mut mem = process.memory() as f64 / 1000.0;
-
-            let val:u32 = process.pid().as_u32();
-
-            if let Some(entry) = process_structure.get_mut(&val) {
-                entry.memory_usage = mem as i32;
-            }
+        let val:u32 = process.pid().as_u32();
+        let mut mem = process.memory() as f64 / 1000.0;  // in KB
+        if let Some(entry) = process_structure.get_mut(&val) {
+            entry.memory_usage = mem as i32;
+        }
     }
 
     //print_resources(&mut process_structure);
