@@ -2,6 +2,16 @@ pub mod printing_functions {
     use std::collections::HashMap;
     use crate::ProcessInfo;
 
+    pub fn print(hashmap: &mut HashMap<u32, ProcessInfo>, printType: &str) {
+        match printType {
+            "R" => print_resources(hashmap),
+            "D" => print_details(hashmap),
+            //"A" => print_all(hashmap),
+            _ => println!("Invalid print type"),
+        }
+    }
+
+
     //prints everything
     //pub fn print_all(hashmap: &mut HashMap<i32, ProcessInfo>) {
     //     println!("PID \t NAME \t\t\t PPID \t STATE \t PRIORITY \t NICE \t NUM_THREADS \t USER_ID \t USER_NAME \t\t\t GROUP_ID \t GROUP_NAME \t FILES_OPENED \t CPU_USAGE \t CPU_TIME \t MEMORY_USAGE \t NETWORK_USAGE");

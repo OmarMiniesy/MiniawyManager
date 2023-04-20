@@ -5,6 +5,7 @@ use std::fs;
 use sysinfo::{System, SystemExt, ProcessExt, NetworkExt, Pid, PidExt, ProcessStatus};
 use libc::{sysconf, _SC_CLK_TCK};
 use std::collections::HashMap;
+use std::env;
 
 mod sorting;
 use crate::sorting::sorting_functions::*;
@@ -96,6 +97,33 @@ fn main() {
         }
     }
 
-    //print_resources(&mut process_structure);
-    filter(&mut process_structure, "name", "firefox");
+    let args: Vec<String> = env::args().skip(1).collect();
+    
+    if args.len() == 0 {
+        println!("No arguments provided");
+        return;
+    }
+    else if args[0] == "-T" {
+        //function tree call it here
+        return;
+    }
+    else if args[0] == "-S" {
+        //call the sort function with args[1] as the sorting column
+        sorting::sorting_functions::sort(&mut process_structure, &args[1]);
+        return;
+    }
+    else if args[0] == "-F" {
+        //call the filter function with args[1] as the filter column and args[2] as the filter value
+        filtering::filtering_functions::filter(&mut process_structure, &args[1], &args[2]);
+        return;
+    }
+    else if args[0] == "-P" {
+        //call the print function with args[1] as the different print function
+        printing::printing_functions::print(&mut process_structure, &args[1]);
+        return;
+    }
+    else {
+        println!("Invalid argument");
+        return;
+    }
 }

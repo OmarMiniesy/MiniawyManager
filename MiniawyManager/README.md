@@ -12,8 +12,6 @@
 
 > filter table by column                `-C <column> <value>`
 
-> filter and sort table                 `-C <column> <value> -S <column>`
-
 > Kill process given PID                `-K <pid>`
 
 ### Active Management To Do (Check permissions)
