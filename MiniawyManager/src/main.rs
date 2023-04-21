@@ -16,6 +16,9 @@ use crate::filtering::filtering_functions::*;
 mod printing;
 use crate::printing::printing_functions::*;
 
+mod searching;
+use crate::searching::searching_functions::*;
+
 
 pub struct ProcessInfo {
     pid: i32,
@@ -120,6 +123,16 @@ fn main() {
     else if args[0] == "-P" {
         //call the print function with args[1] as the different print function
         printing::printing_functions::print(&mut process_structure, &args[1]);
+        return;
+    }
+    else if args[0] == "-A" {
+        //call the print function with args[1] as the pid
+        searching::searching_functions::search_by_pid(&mut process_structure, &args[1]);
+        return;
+    }
+    else if args[0] == "-N" {
+        //call the print function with args[1] as the name
+        searching::searching_functions::search_by_name(&mut process_structure, &args[1]);
         return;
     }
     else {
