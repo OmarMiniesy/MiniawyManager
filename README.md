@@ -3,14 +3,18 @@
 
 > network usage in bytes.
 
+> memory usage
+
+> overall system consumption
+
 ### Flags and Functions
 > print table, different prints         `-P <print_type>`
 
 > sort table, by column                 `-S <column>`
 
-> search table by pid		        `-A  <pid>`
+> search table by pid		            `-A  <pid>`
 
-> search table by name 			`-N  <name>`
+> search table by name 			        `-N  <name>`
 
 > filter table by column                `-F <column> <value>`
 
@@ -24,7 +28,7 @@
 ### Graphics
 > tree structure
 
->  graphs
+> graphs
 
 ### Things to fix
 

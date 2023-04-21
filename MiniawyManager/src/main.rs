@@ -19,6 +19,9 @@ use crate::printing::printing_functions::*;
 mod searching;
 use crate::searching::searching_functions::*;
 
+mod flags;
+use crate::flags::flag_functions::call_function_by_flag;
+
 
 pub struct ProcessInfo {
     pid: i32,
@@ -100,43 +103,47 @@ fn main() {
         }
     }
 
+
     let args: Vec<String> = env::args().skip(1).collect();
+    call_function_by_flag(&mut process_structure, args);
     
-    if args.len() == 0 {
-        println!("No arguments provided");
-        return;
-    }
-    else if args[0] == "-T" {
-        //function tree call it here
-        return;
-    }
-    else if args[0] == "-S" {
-        //call the sort function with args[1] as the sorting column
-        sorting::sorting_functions::sort(&mut process_structure, &args[1]);
-        return;
-    }
-    else if args[0] == "-F" {
-        //call the filter function with args[1] as the filter column and args[2] as the filter value
-        filtering::filtering_functions::filter(&mut process_structure, &args[1], &args[2]);
-        return;
-    }
-    else if args[0] == "-P" {
-        //call the print function with args[1] as the different print function
-        printing::printing_functions::print(&mut process_structure, &args[1]);
-        return;
-    }
-    else if args[0] == "-A" {
-        //call the print function with args[1] as the pid
-        searching::searching_functions::search_by_pid(&mut process_structure, &args[1]);
-        return;
-    }
-    else if args[0] == "-N" {
-        //call the print function with args[1] as the name
-        searching::searching_functions::search_by_name(&mut process_structure, &args[1]);
-        return;
-    }
-    else {
-        println!("Invalid argument");
-        return;
-    }
+
+
+    // if args.len() == 0 {
+    //     println!("No arguments provided");
+    //     return;
+    // }
+    // else if args[0] == "-T" {
+    //     //function tree call it here
+    //     return;
+    // }
+    // else if args[0] == "-S" {
+    //     //call the sort function with args[1] as the sorting column
+    //     sorting::sorting_functions::sort(&mut process_structure, &args[1]);
+    //     return;
+    // }
+    // else if args[0] == "-F" {
+    //     //call the filter function with args[1] as the filter column and args[2] as the filter value
+    //     filtering::filtering_functions::filter(&mut process_structure, &args[1], &args[2]);
+    //     return;
+    // }
+    // else if args[0] == "-P" {
+    //     //call the print function with args[1] as the different print function
+    //     printing::printing_functions::print(&mut process_structure, &args[1]);
+    //     return;
+    // }
+    // else if args[0] == "-A" {
+    //     //call the print function with args[1] as the pid
+    //     searching::searching_functions::search_by_pid(&mut process_structure, &args[1]);
+    //     return;
+    // }
+    // else if args[0] == "-N" {
+    //     //call the print function with args[1] as the name
+    //     searching::searching_functions::search_by_name(&mut process_structure, &args[1]);
+    //     return;
+    // }
+    // else {
+    //     println!("Invalid argument");
+    //     return;
+    // }
 }
