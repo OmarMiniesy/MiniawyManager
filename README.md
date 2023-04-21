@@ -8,7 +8,7 @@
 
 > sort table, by column                 `-S <column>`
 
-> search table by name/pid              `-F <name/pid>`
+> search table by name/pid              `-s <name/pid>`
 
 > filter table by column                `-F <column> <value>`
 
