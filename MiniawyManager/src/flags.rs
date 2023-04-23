@@ -5,6 +5,7 @@ pub mod flag_functions {
     use crate::filtering::filtering_functions::filter;
     use crate::printing::printing_functions::print;
     use crate::searching::searching_functions::{search_by_name, search_by_pid};
+    use crate::tree::tree_functions::tree;
 
     pub fn call_function_by_flag(process_structure: &mut HashMap<u32, ProcessInfo>, args: Vec<String>){
 
@@ -13,7 +14,8 @@ pub mod flag_functions {
             return;
         }
         else if args[0] == "-T" {
-            //function tree call it here
+            //call the tree function
+            tree(process_structure, 0, 0);
             return;
         }
         else if args[0] == "-S" {
@@ -32,12 +34,12 @@ pub mod flag_functions {
             return;
         }
         else if args[0] == "-A" {
-            //call the print function with args[1] as the pid
+            //call the search function with args[1] as the pid
             search_by_pid(process_structure, &args[1]);
             return;
         }
         else if args[0] == "-N" {
-            //call the print function with args[1] as the name
+            //call the search function with args[1] as the name
             search_by_name(process_structure, &args[1]);
             return;
         }

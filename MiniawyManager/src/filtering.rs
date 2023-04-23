@@ -1,7 +1,7 @@
 pub mod filtering_functions {
     use std::collections::HashMap;
     use crate::ProcessInfo;
-    use crate::printing::printing_functions::print_resources;
+    use crate::printing::printing_functions::print_details;
 
     //function to filter the hashmap by column
     pub fn filter(hashmap: &mut HashMap<u32, ProcessInfo>, column: &str, value: &str) {
@@ -48,7 +48,7 @@ pub mod filtering_functions {
             },
             _ => println!("Invalid column name"),
         }
-        print_resources(hashmap);
+        print_details(hashmap);
     }   
 
 }

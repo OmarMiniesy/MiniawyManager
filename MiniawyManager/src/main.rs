@@ -22,6 +22,9 @@ use crate::searching::searching_functions::*;
 mod flags;
 use crate::flags::flag_functions::call_function_by_flag;
 
+mod tree;
+use crate::tree::tree_functions::tree;
+
 
 pub struct ProcessInfo {
     pid: i32,
