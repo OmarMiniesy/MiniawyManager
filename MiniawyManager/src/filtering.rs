@@ -18,7 +18,7 @@ pub mod filtering_functions {
                 hashmap.retain(|_, v| v.pid == value);
             },
             "cpu_time" => {
-                let value = value.parse::<u64>().unwrap();
+                let value = value.parse::<f64>().unwrap();
                 hashmap.retain(|_, v| v.cpu_time == value);
             },
             "ppid" => {

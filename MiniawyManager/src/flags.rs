@@ -43,6 +43,17 @@ pub mod flag_functions {
             search_by_name(process_structure, &args[1]);
             return;
         }
+        else if args[0] == "-O" {
+            //prints the overall system information and consumption
+
+        }
+        else if args[0] == "-K" {
+            //kills the process with the pid args[1]
+            
+        }
+        else if args[0] == "-cP" {
+            //change priority of process with pid args[1] to args[2]
+        }
         else {
             println!("Invalid argument");
             return;

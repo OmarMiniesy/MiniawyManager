@@ -33,14 +33,14 @@ pub struct ProcessInfo {
     state: char,
     priority: i64,
     nice: i64,
-    num_threads: i64,
+    threads: i64,
     user_id: u32,
     user_name: String,
     group_id: u32,   
     group_name: String, 
     files_opened: i32,
     cpu_usage: f64,
-    cpu_time: u64, 
+    cpu_time: f64, 
     memory_usage: i32,
     network_usage: i32,
 }
@@ -84,14 +84,14 @@ fn main() {
             state: stat.state,
             priority: stat.priority,
             nice: stat.nice,
-            num_threads: stat.num_threads,
+            threads: stat.num_threads,
             user_id: status.ruid,
             user_name: get_user_by_uid(status.ruid).unwrap().name().to_string_lossy().to_string(),
             group_id: status.rgid,
             group_name: get_group_by_gid(status.rgid).unwrap().name().to_string_lossy().to_string(),
             files_opened: count_files as i32,
             cpu_usage: cpu_usage,
-            cpu_time: stat.utime + stat.stime,
+            cpu_time: (stat.utime + stat.stime) as f64 / 100.0,
             memory_usage: 0 as i32,
             network_usage: 0,
         });
@@ -106,7 +106,13 @@ fn main() {
         }
     }
 
+    // total used memory percentage
+    // total cpu usage percentage
+    // total number of processes
+    // total number of threads
+    // total number of users
 
     let args: Vec<String> = env::args().skip(1).collect();
     call_function_by_flag(&mut process_structure, args);
+
 }

@@ -33,13 +33,21 @@ pub mod printing_functions {
     //prints other details (PROCESS INFO)
     pub fn print_details(hashmap: &mut HashMap<u32, ProcessInfo>){
         println!(" {:<10}  {:<40}  {:<15}  {:<15}  {:<15}  {:<15}  {:<15}  {:<15}  {:<15} {:<12}  {:<10} "
-        , "PID", "NAME", "STATE", "PPID", "PRIORITY", "NICE", "NUM_THREADS", "USER_ID", "USER_NAME", "GROUP_ID", "GROUP_NAME");
+        , "PID", "NAME", "STATE", "PPID", "PRIORITY", "NICE", "THREADS", "USER_ID", "USER_NAME", "GROUP_ID", "GROUP_NAME");
         for (key, value) in hashmap { 
             println!(" {:<10}  {:<40}  {:<15}  {:<15}  {:<15}  {:<15}  {:<15}  {:<15}  {:<15} {:<12}  {:<10}"
-            , key, value.name, value.state, value.ppid, value.priority, value.nice, value.num_threads, value.user_id, value.user_name,
+            , key, value.name, value.state, value.ppid, value.priority, value.nice, value.threads, value.user_id, value.user_name,
              value.group_id, value.group_name);
         }
 
+    }
+
+    pub fn print_process(hashmap: & HashMap<u32, ProcessInfo>, pid: u32) {
+        for (key, value) in hashmap { 
+            if *key == pid {
+                println!(" {:<10}  {:<40}  {:<15.4}  {:<15.4}  {:<15.2}  {:<15}  {:<15}  {:<15}  {:<15} ", key, value.name, value.memory_usage, value.cpu_usage, value.cpu_time, value.threads, value.state, value.user_id, value.user_name);
+            }
+        }
     }
 
 }
