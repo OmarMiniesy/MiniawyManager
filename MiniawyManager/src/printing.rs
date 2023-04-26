@@ -11,7 +11,6 @@ pub mod printing_functions {
         }
     }
 
-
     //prints everything
     //pub fn print_all(hashmap: &mut HashMap<i32, ProcessInfo>) {
     //     println!("PID \t NAME \t\t\t PPID \t STATE \t PRIORITY \t NICE \t NUM_THREADS \t USER_ID \t USER_NAME \t\t\t GROUP_ID \t GROUP_NAME \t FILES_OPENED \t CPU_USAGE \t CPU_TIME \t MEMORY_USAGE \t NETWORK_USAGE");
@@ -45,7 +44,8 @@ pub mod printing_functions {
     pub fn print_process(hashmap: & HashMap<u32, ProcessInfo>, pid: u32) {
         for (key, value) in hashmap { 
             if *key == pid {
-                println!(" {:<10}  {:<40}  {:<15.4}  {:<15.4}  {:<15.2}  {:<15}  {:<15}  {:<15}  {:<15} ", key, value.name, value.memory_usage, value.cpu_usage, value.cpu_time, value.threads, value.state, value.user_id, value.user_name);
+                println!(" {:<10}  {:<40}  {:<15.4}  {:<15.4}  {:<15.2}  {:<15}  {:<15}  {:<15}  {:<15} ", 
+                key, value.name, value.memory_usage, value.cpu_usage, value.cpu_time, value.threads, value.state, value.user_id, value.user_name);
             }
         }
     }

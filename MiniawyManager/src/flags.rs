@@ -1,13 +1,15 @@
 pub mod flag_functions {
     use std::collections::HashMap;
     use crate::ProcessInfo;
+    use sysinfo::System;
     use crate::sorting::sorting_functions::sort;
     use crate::filtering::filtering_functions::filter;
     use crate::printing::printing_functions::print;
     use crate::searching::searching_functions::{search_by_name, search_by_pid};
     use crate::tree::tree_functions::tree;
+    use crate::activeManagement::activeManagement_functions::*;
 
-    pub fn call_function_by_flag(process_structure: &mut HashMap<u32, ProcessInfo>, args: Vec<String>){
+    pub fn call_function_by_flag(process_structure: &mut HashMap<u32, ProcessInfo>, args: Vec<String>, system: &mut System){
 
         if args.len() == 0 {
             println!("No arguments provided");
@@ -49,7 +51,7 @@ pub mod flag_functions {
         }
         else if args[0] == "-K" {
             //kills the process with the pid args[1]
-            
+            kill_process(system, &args[1]);
         }
         else if args[0] == "-cP" {
             //change priority of process with pid args[1] to args[2]

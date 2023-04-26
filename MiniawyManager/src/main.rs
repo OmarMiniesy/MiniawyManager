@@ -25,6 +25,8 @@ use crate::flags::flag_functions::call_function_by_flag;
 mod tree;
 use crate::tree::tree_functions::tree;
 
+mod activeManagement;
+use crate::activeManagement::activeManagement_functions::*;
 
 pub struct ProcessInfo {
     pid: i32,
@@ -113,6 +115,6 @@ fn main() {
     // total number of users
 
     let args: Vec<String> = env::args().skip(1).collect();
-    call_function_by_flag(&mut process_structure, args);
+    call_function_by_flag(&mut process_structure, args, &mut system);
 
 }
