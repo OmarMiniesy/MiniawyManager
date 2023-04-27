@@ -4,7 +4,7 @@ pub mod flag_functions {
     use sysinfo::System;
     use crate::sorting::sorting_functions::sort;
     use crate::filtering::filtering_functions::filter;
-    use crate::printing::printing_functions::print;
+    use crate::printing::printing_functions::*;
     use crate::searching::searching_functions::{search_by_name, search_by_pid};
     use crate::tree::tree_functions::tree;
     use crate::activeManagement::activeManagement_functions::*;
@@ -51,7 +51,7 @@ pub mod flag_functions {
         }
         else if args[0] == "-K" {
             //kills the process with the pid args[1]
-            kill_process(system, &args[1]);
+            kill_process(system, &args[1], process_structure);
         }
         else if args[0] == "-cP" {
             //change priority of process with pid args[1] to args[2]

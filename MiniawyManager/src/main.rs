@@ -1,6 +1,6 @@
 use procfs::process::Process;
 use procfs::process::all_processes;
-use users::{get_user_by_uid, User, get_group_by_gid, Group};
+use users::{get_user_by_uid, User, all_users, get_group_by_gid, Group, get_current_uid, get_current_username, get_current_gid, get_current_groupname, os::unix::UserExt};
 use std::fs;
 use sysinfo::{System, SystemExt, ProcessExt, NetworkExt, Pid, PidExt, ProcessStatus};
 use libc::{sysconf, _SC_CLK_TCK};
