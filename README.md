@@ -3,7 +3,7 @@
 
 > network usage in bytes.
 
-> memory usage
+> memory usage 
 
 > overall system consumption
 
@@ -12,6 +12,8 @@
 > Recursive Kill
 
 > Change priority. Only go down
+
+> Check if admin user
 
 ### Flags and operations
 > filtering and sorting at the same time
