@@ -3,8 +3,6 @@
 
 > network usage in bytes.
 
-> memory usage 
-
 > overall system consumption
 
 

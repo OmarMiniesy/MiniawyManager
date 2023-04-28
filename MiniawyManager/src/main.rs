@@ -67,12 +67,12 @@ fn main() {
         let stat = process.stat().unwrap();
         let status = process.status().unwrap();
 
-        let utime = stat.utime; 
-        let stime = stat.stime; 
-        let starttime = stat.starttime as f64;
-        let elapsed = system.uptime() as f64 * clk_tck as f64 - starttime;
-        let process_usage = utime + stime;
-        let cpu_usage = process_usage as f64 * 100 as f64 / elapsed;
+        let utime_sec = stat.utime as f64 / clk_tck;
+        let stime_sec = stat.stime as f64 / clk_tck;
+        let starttime_sec = stat.starttime as f64 / clk_tck;
+        let elapsed_sec = system.uptime() as f64 - starttime_sec;
+        let usage_sec = utime_sec + stime_sec;
+        let cpu_usage = 100.0 * usage_sec / elapsed_sec;
 
         let fd_dir = format!("/proc/{}/fd", stat.pid);
         let count_files = fs::read_dir(fd_dir.clone())
@@ -94,7 +94,7 @@ fn main() {
             files_opened: count_files as i32,
             cpu_usage: cpu_usage,
             cpu_time: (stat.utime + stat.stime) as f64 / 100.0,
-            memory_usage: 0 as i32,
+            memory_usage: 0.0,
             network_usage: 0,
         });
     }
