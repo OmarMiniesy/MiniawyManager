@@ -1,7 +1,8 @@
 use procfs::process::Process;
 use procfs::process::all_processes;
 use users::{get_user_by_uid, User, all_users, get_group_by_gid, Group, get_current_uid, get_current_username, get_current_gid, get_current_groupname, os::unix::UserExt};
-use std::fs;
+use std::fs::{File, read_dir};
+use std::io::{self, BufRead, BufReader};
 use sysinfo::{System, SystemExt, ProcessExt, NetworkExt, Pid, PidExt, ProcessStatus};
 use libc::{sysconf, _SC_CLK_TCK};
 use std::collections::HashMap;
@@ -75,7 +76,7 @@ fn main() {
         let cpu_usage = 100.0 * usage_sec / elapsed_sec;
 
         let fd_dir = format!("/proc/{}/fd", stat.pid);
-        let count_files = fs::read_dir(fd_dir.clone())
+        let count_files = read_dir(fd_dir.clone())
         .map(|entries| entries.count())
         .unwrap_or(0);
 
@@ -94,7 +95,7 @@ fn main() {
             files_opened: count_files as i32,
             cpu_usage: cpu_usage,
             cpu_time: (stat.utime + stat.stime) as f64 / 100.0,
-            memory_usage: 0.0,
+            memory_usage: 0,
             network_usage: 0,
         });
     }

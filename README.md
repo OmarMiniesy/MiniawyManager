@@ -1,6 +1,4 @@
 ### Missing Data
-> cpu usage in percent.
-
 > network usage in bytes.
 
 > overall system consumption
