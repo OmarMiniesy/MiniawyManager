@@ -47,7 +47,7 @@ pub mod flag_functions {
         }
         else if args[0] == "-O" {
             //prints the overall system information and consumption
-
+            
         }
         else if args[0] == "-K" {
             //kills the process with the pid args[1]
