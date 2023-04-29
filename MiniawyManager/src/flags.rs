@@ -56,6 +56,22 @@ pub mod flag_functions {
         else if args[0] == "-cP" {
             //change priority of process with pid args[1] to args[2]
         }
+        else if args[0] == "-H" {
+            //prints the help menu
+            println!("Miniawy Manager is a process manager that allows you to manage your processes in a simple and easy way.");
+            println!("Flags: ");
+            println!("-T: Prints the processes in a tree format");
+            println!("-S <column>: Sorts the processes by the column provided");
+            println!("-F <column> <value>: Filters the processes by the column provided and the value provided");
+            println!("-P <R/D>: Prints the processes by the column provided");
+            println!("-A <pid>: Searches for the process with the pid provided");
+            println!("-N <name>: Searches for the process with the name provided");
+            println!("-O: Prints the overall system information and consumption");
+            println!("-K <pid>: Kills the process with the pid provided");
+            println!("-cP <pid> <priority>: Changes the priority of the process with the pid provided to the priority provided");
+            println!("-H: Prints the help menu");
+            return;
+        }
         else {
             println!("Invalid argument");
             return;
