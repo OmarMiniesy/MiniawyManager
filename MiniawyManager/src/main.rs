@@ -48,11 +48,11 @@ fn main() {
     let mut system = System::new_all();
     system.refresh_all();
 
+    hashmapFill(&mut process_structure, &mut system);
+
     // system constants
     let mut total_memory_in_kb = system.total_memory()/1000;
     let mut used_memory_in_kb = system.used_memory()/1000;
-
-    hashmapFill(&mut process_structure, &mut system);
 
     // total used memory percentage
     // total cpu usage percentage
