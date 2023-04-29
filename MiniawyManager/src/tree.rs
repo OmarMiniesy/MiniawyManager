@@ -16,7 +16,7 @@ pub mod tree_functions {
                 print!("|   ");
             }
            // println!("|--{}", hashmap.get(&(child as u32)).unwrap().name);
-            println!("({}) {}", child, hashmap.get(&(child as u32)).unwrap().name);
+            println!("({}) {} [{}]", child, hashmap.get(&(child as u32)).unwrap().name, hashmap.get(&(child as u32)).unwrap().threads);
 
             tree(hashmap, child, level + 1);
         }
