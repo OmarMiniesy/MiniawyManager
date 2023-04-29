@@ -4,7 +4,7 @@ pub mod filtering_functions {
     use crate::printing::printing_functions::print_details;
 
     //function to filter the hashmap by column
-    pub fn filter(hashmap: &mut HashMap<u32, ProcessInfo>, column: &str, value: &str) {
+    pub fn filter(hashmap: &mut HashMap<u32, ProcessInfo>, column: &str, value: &str, flag: i32) {
         match column {
             "memory_usage" => {
                 let value = value.parse::<i32>().unwrap();
@@ -48,7 +48,9 @@ pub mod filtering_functions {
             },
             _ => println!("Invalid column name"),
         }
-        print_details(hashmap);
+        if flag == 1 {
+            print_details(hashmap);
+        }
     }   
 
 }

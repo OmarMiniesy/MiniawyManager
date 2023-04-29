@@ -27,8 +27,13 @@ pub mod flag_functions {
         }
         else if args[0] == "-F" {
             //call the filter function with args[1] as the filter column and args[2] as the filter value
-            filter(process_structure, &args[1], &args[2]);
+            filter(process_structure, &args[1], &args[2], 1);
             return;
+        }
+        else if args[0] == "-FS"{
+            //call the filter function with args[1] as the filter column and args[2] as the filter value and args[3] as the sorting column
+            filter(process_structure, &args[1], &args[2], 0);
+            sort(process_structure, &args[3]);
         }
         else if args[0] == "-P" {
             //call the print function with args[1] as the different print function
@@ -47,7 +52,7 @@ pub mod flag_functions {
         }
         else if args[0] == "-O" {
             //prints the overall system information and consumption
-            
+
         }
         else if args[0] == "-K" {
             //kills the process with the pid args[1]
@@ -63,6 +68,7 @@ pub mod flag_functions {
             println!("-T: Prints the processes in a tree format");
             println!("-S <column>: Sorts the processes by the column provided");
             println!("-F <column> <value>: Filters the processes by the column provided and the value provided");
+            println!("-FS <column> <value> <sort_column>: Filters the processes by the column provided and the value provided and then sorts the processes by the column provided");
             println!("-P <R/D>: Prints the processes by the column provided");
             println!("-A <pid>: Searches for the process with the pid provided");
             println!("-N <name>: Searches for the process with the name provided");
