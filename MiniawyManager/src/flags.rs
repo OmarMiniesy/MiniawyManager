@@ -8,6 +8,7 @@ pub mod flag_functions {
     use crate::searching::searching_functions::{search_by_name, search_by_pid};
     use crate::tree::tree_functions::tree;
     use crate::activeManagement::activeManagement_functions::*;
+    use crate::datastore::datastore_functions::*;
 
     pub fn call_function_by_flag(process_structure: &mut HashMap<u32, ProcessInfo>, args: Vec<String>, system: &mut System){
 
@@ -52,7 +53,7 @@ pub mod flag_functions {
         }
         else if args[0] == "-O" {
             //prints the overall system information and consumption
-
+            overall_stats(process_structure, system);
         }
         else if args[0] == "-K" {
             //kills the process with the pid args[1]

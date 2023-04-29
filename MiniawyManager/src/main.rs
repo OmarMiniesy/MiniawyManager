@@ -50,10 +50,6 @@ fn main() {
 
     hashmapFill(&mut process_structure, &mut system);
 
-    // system constants
-    let mut total_memory_in_kb = system.total_memory()/1000;
-    let mut used_memory_in_kb = system.used_memory()/1000;
-
     // total used memory percentage
     // total cpu usage percentage
     // total number of processes

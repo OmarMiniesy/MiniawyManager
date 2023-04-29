@@ -1,7 +1,7 @@
 pub mod datastore_functions {
     
     use std::collections::HashMap;
-    use sysinfo::{System, ProcessExt, Pid, SystemExt, PidExt};
+    use sysinfo::{System, ProcessExt, Pid, SystemExt, PidExt, CpuExt};
     use crate::ProcessInfo;
     use users::{get_user_by_uid, User, all_users, get_group_by_gid, Group, get_current_uid, get_current_username, get_current_gid, get_current_groupname, os::unix::UserExt};
     use std::fs::{File, read_dir};
@@ -61,6 +61,41 @@ pub mod datastore_functions {
                 entry.memory_usage = mem as i32;
             }
         }
+    }
+
+    pub fn overall_stats(hashmap: &mut HashMap<u32, ProcessInfo>, system: &mut System){
+
+        // MEMORY
+        let mut total_memory_in_kb = system.total_memory()/1000;
+        let mut used_memory_in_kb = system.used_memory()/1000;
+        let mut total_memory_consumed_percentage = used_memory_in_kb as f64 / total_memory_in_kb as f64 * 100.0;
+        println!("Memory: {}% ({}/{})", total_memory_consumed_percentage, used_memory_in_kb, total_memory_in_kb);
+
+        // CPU
+        system.refresh_cpu(); // Refreshing CPU information.
+        let mut i = 1;
+        for cpu in system.cpus() {
+            println!("CPU {i} {}% ", cpu.cpu_usage());
+            i += 1;
+        }
+
+        // PROCESSES
+        let mut total_processes = hashmap.keys().count();
+        println!("Processes: {}", total_processes);
+
+        // THREADS
+        let mut total_threads = 0;
+        for (key,val) in hashmap.iter(){
+            total_threads += val.threads;
+        }
+        println!("Threads: {}", total_threads);
+
+        // USERS
+        let file = File::open("/etc/passwd").expect("Failed to open file");
+        let reader = BufReader::new(file);
+        let num_users = reader.lines().count();
+        println!("There are {} users on the system", num_users);
+        
     }
 
 }

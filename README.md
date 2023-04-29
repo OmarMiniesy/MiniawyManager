@@ -12,8 +12,7 @@
 > Check if admin user
 
 ### Flags and operations
-> filtering and sorting at the same time
 
-> no arguments prints everything
+> no arguments calls the GUI?
 
 > Fix the printing to make it smaller
