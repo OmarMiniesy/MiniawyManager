@@ -2,11 +2,8 @@
 > network usage in bytes.
 
 ### Active Management To Do (Check permissions)
-> Recursive Kill
 
 > Change priority. Only go down
-
-> Check if admin user
 
 ### Flags and operations
 > no arguments calls the GUI?

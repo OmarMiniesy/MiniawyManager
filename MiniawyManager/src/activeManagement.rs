@@ -28,5 +28,26 @@ pub mod activeManagement_functions{
         }
         
     }
-
+//function to kill a process and all its children recursively 
+    pub fn recursive_kill(system: &mut System, pid: &String, process_structure: &mut HashMap<u32, ProcessInfo>) {
+        let x = pid.parse::<u32>().unwrap();
+        let p = Pid::from_u32(x);
+        if check_permission(process_structure, &x) {
+            
+            let mut children: Vec<i32> = Vec::new();
+            for (_, v) in process_structure.iter() {
+                if v.ppid == x as i32 {
+                    children.push(v.pid);
+                }
+            }
+            if let Some(process) = system.process(p){
+                process.kill();
+            }
+            while let Some(child) = children.pop() {
+                recursive_kill(system, &child.to_string(), process_structure);
+            }
+        } else {
+            println!("You don't have permission to kill this process");
+        }
+    }
 }

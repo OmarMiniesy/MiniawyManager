@@ -31,10 +31,10 @@ pub mod printing_functions {
     }
     //prints other details (PROCESS INFO)
     pub fn print_details(hashmap: &mut HashMap<u32, ProcessInfo>){
-        println!(" {:<10}  {:<40}  {:<15}  {:<15}  {:<15}  {:<15}  {:<15}  {:<15}  {:<15} {:<12}  {:<10} "
+        println!(" {:<10}  {:<20}  {:<15}  {:<15}  {:<15}  {:<15}  {:<10}  {:<15}  {:<15} {:<12}  {:<10} "
         , "PID", "NAME", "STATE", "PPID", "PRIORITY", "NICE", "THREADS", "USER_ID", "USER_NAME", "GROUP_ID", "GROUP_NAME");
         for (key, value) in hashmap { 
-            println!(" {:<10}  {:<40}  {:<15}  {:<15}  {:<15}  {:<15}  {:<15}  {:<15}  {:<15} {:<12}  {:<10}"
+            println!(" {:<10}  {:<20}  {:<15}  {:<15}  {:<15}  {:<15}  {:<10}  {:<15}  {:<15} {:<12}  {:<10}"
             , key, value.name, value.state, value.ppid, value.priority, value.nice, value.threads, value.user_id, value.user_name,
              value.group_id, value.group_name);
         }

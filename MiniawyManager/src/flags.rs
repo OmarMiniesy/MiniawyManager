@@ -59,6 +59,10 @@ pub mod flag_functions {
             //kills the process with the pid args[1]
             kill_process(system, &args[1], process_structure);
         }
+        else if args[0] == "-KR" {
+            //kills the process with the pid args[1] and all its children recursively
+            recursive_kill(system, &args[1], process_structure);
+        }
         else if args[0] == "-cP" {
             //change priority of process with pid args[1] to args[2]
         }
