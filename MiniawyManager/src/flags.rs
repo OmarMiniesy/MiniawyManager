@@ -65,7 +65,16 @@ pub mod flag_functions {
         }
         else if args[0] == "-cP" {
             //change priority of process with pid args[1] to args[2]
+            change_priority(system, &args[1], &args[2], process_structure);
         }
+        // else if args[0] == "-SP"{
+        //     //suspends the process with pid args[1]
+        //     suspend_process(system, &args[1], process_structure);
+        // }
+        // else if arg[0]== "-Re"{
+        //     //resumes the process with pid args[1]
+        //     resume_process(system, &args[1], &args[2],process_structure);
+        // }
         else if args[0] == "-H" {
             //prints the help menu
             println!("Miniawy Manager is a process manager that allows you to manage your processes in a simple and easy way.");

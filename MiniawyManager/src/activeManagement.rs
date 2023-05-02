@@ -3,6 +3,8 @@ pub mod activeManagement_functions{
     use crate::ProcessInfo;
     use users::{get_user_by_uid, User, all_users, os::unix::UserExt, get_current_username};
     use std::collections::HashMap;
+    use std::process::Command;
+
 
     pub fn check_permission(process_structure: &mut HashMap<u32, ProcessInfo>, pid: &u32) -> bool{
         let mut name = String::new();
@@ -28,7 +30,7 @@ pub mod activeManagement_functions{
         }
         
     }
-//function to kill a process and all its children recursively 
+
     pub fn recursive_kill(system: &mut System, pid: &String, process_structure: &mut HashMap<u32, ProcessInfo>) {
         let x = pid.parse::<u32>().unwrap();
         let p = Pid::from_u32(x);
@@ -48,6 +50,45 @@ pub mod activeManagement_functions{
             }
         } else {
             println!("You don't have permission to kill this process");
+        }
+    }
+
+    // pub fn suspend_process(system: &mut System, pid: &String, process_structure: &mut HashMap<u32, ProcessInfo>) {
+    //     let x = pid.parse::<u32>().unwrap();
+    //     let p = Pid::from_u32(x);
+    //     if check_permission(process_structure, &x) {
+    //         if let Some(process) = system.process(p){
+    //             process.suspend();
+    //         }
+    //     } else {
+    //         println!("You don't have permission to suspend this process");
+    //     }
+    // }
+
+
+    // pub fn resume_process(system: &mut System, pid: &String, process_structure: &mut HashMap<u32, ProcessInfo>) {
+    //     let x = pid.parse::<u32>().unwrap();
+    //     let p = Pid::from_u32(x);
+    //     if check_permission(process_structure, &x) {
+    //         if let Some(process) = system.process(p){
+    //             process.resume();
+    //         }
+    //     } else {
+    //         println!("You don't have permission to resume this process");
+    //     }
+    // }
+
+    pub fn change_priority(system: &mut System, pid: &String, priority: &String, process_structure: &mut HashMap<u32, ProcessInfo>) {
+        let mut cpr = Command::new("renice");
+        let x = pid.parse::<u32>().unwrap();
+        let p = Pid::from_u32(x);
+        if check_permission(process_structure, &x) {
+            if let Some(process) = system.process(p){
+                cpr.args(["-n", &priority, "-p", &p.to_string()]);
+                cpr.spawn().expect("Failed to execute command");
+            }
+        } else {
+            println!("You don't have permission to change the priority of this process");
         }
     }
 }
