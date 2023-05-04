@@ -13,7 +13,7 @@ pub mod flag_functions {
     pub fn call_function_by_flag(process_structure: &mut HashMap<u32, ProcessInfo>, args: Vec<String>, system: &mut System){
 
         if args.len() == 0 {
-            println!("No arguments provided");
+            print(process_structure, "A");
             return;
         }
         else if args[0] == "-T" {
@@ -77,8 +77,10 @@ pub mod flag_functions {
         // }
         else if args[0] == "-H" {
             //prints the help menu
+            println!("\n");
             println!("Miniawy Manager is a process manager that allows you to manage your processes in a simple and easy way.");
-            println!("Flags: ");
+            println!("The following are the flags that you can use to manage your processes:");
+            println!("\n");
             println!("-T: Prints the processes in a tree format");
             println!("-S <column>: Sorts the processes by the column provided");
             println!("-F <column> <value>: Filters the processes by the column provided and the value provided");
