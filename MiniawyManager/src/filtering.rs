@@ -1,10 +1,10 @@
 pub mod filtering_functions {
     use std::collections::HashMap;
     use crate::ProcessInfo;
-    use crate::printing::printing_functions::print_details;
+    use crate::printing::printing_functions::*;
 
     //function to filter the hashmap by column
-    pub fn filter(hashmap: &mut HashMap<u32, ProcessInfo>, column: &str, value: &str, flag: i32) {
+    pub fn filter(hashmap: &mut HashMap<u32, ProcessInfo>, column: &str, value: &str, flag: i32) {        
         match column {
             "memory_usage" => {
                 let value = value.parse::<i32>().unwrap();
@@ -49,7 +49,7 @@ pub mod filtering_functions {
             _ => println!("Invalid column name"),
         }
         if flag == 1 {
-            print_details(hashmap);
+            print(hashmap, "A");
         }
     }   
 

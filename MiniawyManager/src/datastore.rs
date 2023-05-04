@@ -26,7 +26,17 @@ pub mod datastore_functions {
             let starttime_sec = stat.starttime as f64 / clk_tck;
             let elapsed_sec = system.uptime() as f64 - starttime_sec;
             let usage_sec = utime_sec + stime_sec;
-            let cpu_usage = 100.0 * usage_sec / elapsed_sec;
+            let cpu_usage1 = 100.0 * usage_sec / elapsed_sec;
+
+            let float_var: f64 = cpu_usage1;
+            let formatted_str = format!("{:.2}", float_var);
+            let mut cpu_usage = formatted_str.parse::<f64>().unwrap();
+            if cpu_usage < 0.0 {
+                cpu_usage = 0.0;
+            }
+            if cpu_usage > 100.0 {
+                cpu_usage = 100.0;
+            }
 
             let fd_dir = format!("/proc/{}/fd", stat.pid);
             let count_files = read_dir(fd_dir.clone())
@@ -49,7 +59,6 @@ pub mod datastore_functions {
                 cpu_usage: cpu_usage,
                 cpu_time: (stat.utime + stat.stime) as f64 / 100.0,
                 memory_usage: 0,
-                network_usage: 0,
             });
         }
         
@@ -72,11 +81,21 @@ pub mod datastore_functions {
         println!("Memory: {}% ({}/{})", total_memory_consumed_percentage, used_memory_in_kb, total_memory_in_kb);
 
         // CPU
-        system.refresh_cpu(); // Refreshing CPU information.
-        let mut i = 1;
-        for cpu in system.cpus() {
-            println!("CPU {i} {}% ", cpu.cpu_usage());
-            i += 1;
+        let mut cpu_usage: Vec<f32> = Vec::new();
+        for x in 1..3{
+            system.refresh_cpu(); // Refreshing CPU information.
+            if x == 2{
+                for cpu in system.cpus() {
+                    cpu_usage.push(cpu.cpu_usage());
+                }
+            }
+            std::thread::sleep(std::time::Duration::from_millis(500));
+        }
+        //print elements of the vector
+        let mut i = 0;
+        for x in cpu_usage.iter() {
+            print!("CPU {i}: {}%\n", x);
+            i = i + 1;
         }
 
         // PROCESSES

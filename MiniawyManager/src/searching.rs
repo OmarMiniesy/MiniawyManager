@@ -6,12 +6,12 @@ pub mod searching_functions {
 
     pub fn search_by_name(hashmap: &mut HashMap<u32, ProcessInfo>, name: &str) {
         hashmap.retain(|_, v| v.name == name);
-        print(hashmap,"R");
+        print(hashmap,"A");
     }
 
     pub fn search_by_pid(hashmap: &mut HashMap<u32, ProcessInfo>, pid: &str) {
         let pid = pid.parse::<i32>().unwrap();
         hashmap.retain(|_, v| v.pid == pid);
-        print(hashmap,"R");
+        print(hashmap,"A");
     }
 }

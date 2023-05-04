@@ -37,7 +37,6 @@ pub struct ProcessInfo {
     cpu_usage: f64,
     cpu_time: f64, 
     memory_usage: i32,
-    network_usage: i32,
 }
 
 fn main() {
