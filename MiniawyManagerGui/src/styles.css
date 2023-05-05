@@ -28,6 +28,10 @@
   color: black
 }
 
+.navBar .NavLink {
+  color: black;
+}
+
 .cpuDiv{
   display: flex;
   flex-direction: row;
@@ -86,7 +90,7 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: #0f0f0f;
   text-decoration: inherit;
 }
 
