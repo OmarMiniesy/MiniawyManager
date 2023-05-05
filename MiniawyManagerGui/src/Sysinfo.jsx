@@ -141,9 +141,9 @@ function Sysinfo() {
 
   return (
     <div>
-     <h1> System Info</h1>
+     <h2> System Info</h2>
       <div className="title1">
-        <h2>CPU Usage:</h2>
+        <h1>CPU Usage:</h1>
       </div>
       <div className="cpuDiv">
         <ResponsiveContainer width={500} height={400}>
@@ -210,7 +210,7 @@ function Sysinfo() {
         />
       </div>
       <div>
-        <h2>Memory Usage:</h2>{" "}
+        <h1>Memory Usage:</h1>{" "}
       </div>
       <div className="memDiv">
         <ResponsiveContainer width={500} height={400}>
