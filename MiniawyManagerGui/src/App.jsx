@@ -38,8 +38,8 @@ function App() {
     <div>
       <Router>
         <div className="navBar">
-          <NavLink to="/">Proctable</NavLink>
-          <NavLink to="/sysinfo">Sysinfo</NavLink>
+          <NavLink to="/">Processes</NavLink>
+          <NavLink to="/sysinfo">System Info</NavLink>
         </div>
         <Routes>
           <Route path="/" element={<Proctable />} />
