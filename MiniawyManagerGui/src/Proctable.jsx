@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/tauri";
-import "./Proctable.css";
+import "./App.css";
 import React, { useMemo } from "react";
 import MaterialReactTable from "material-react-table";
 import {
