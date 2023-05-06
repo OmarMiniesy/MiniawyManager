@@ -86,6 +86,10 @@
 
 > Inside the same directory, add the missing dependancies via `cargo add <dependancy-name>`.
 
+### KILLING A PROCESS IN THE GUI
+
+> If the filters and/or searching was used to locate a process to kill it, must close the filter/search tab after finding the process required for the kill button to become interactive. 
+
 # Versions Used At Time of Development
 
 ```
