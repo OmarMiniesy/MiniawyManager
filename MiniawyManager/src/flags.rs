@@ -9,6 +9,8 @@ pub mod flag_functions {
     use crate::tree::tree_functions::tree;
     use crate::activeManagement::activeManagement_functions::*;
     use crate::datastore::datastore_functions::*;
+    use std::process::Command;
+    use execute::Execute;
 
     pub fn call_function_by_flag(process_structure: &mut HashMap<u32, ProcessInfo>, args: Vec<String>, system: &mut System){
 
@@ -67,6 +69,11 @@ pub mod flag_functions {
             //change priority of process with pid args[1] to args[2]
             change_priority(system, &args[1], &args[2], process_structure);
         }
+        else if args[0] == "-G" {
+            //runs the GUI version of Miniawy Manager
+            const guipath: &str = "./../MiniawyManagerGui/src-tauri/target/release/miniway-manager-gui";
+            let mut command = Command::new(guipath);
+        }
         // else if args[0] == "-SP"{
         //     //suspends the process with pid args[1]
         //     suspend_process(system, &args[1], process_structure);
@@ -81,16 +88,17 @@ pub mod flag_functions {
             println!("Miniawy Manager is a process manager that allows you to manage your processes in a simple and easy way.");
             println!("The following are the flags that you can use to manage your processes:");
             println!("\n");
-            println!("-T: Prints the processes in a tree format");
-            println!("-S <column>: Sorts the processes by the column provided");
+            println!("-G: Runs the GUI version of Miniawy Manager");
+            println!("-A <pid>: Searches for the process with the pid provided");
+            println!("-cP <pid> <priority>: Changes the priority of the process with the pid provided to the priority provided");
             println!("-F <column> <value>: Filters the processes by the column provided and the value provided");
             println!("-FS <column> <value> <sort_column>: Filters the processes by the column provided and the value provided and then sorts the processes by the column provided");
-            println!("-P <R/D>: Prints the processes by the column provided");
-            println!("-A <pid>: Searches for the process with the pid provided");
+            println!("-K <pid>: Kills the process with the pid provided");
             println!("-N <name>: Searches for the process with the name provided");
             println!("-O: Prints the overall system information and consumption");
-            println!("-K <pid>: Kills the process with the pid provided");
-            println!("-cP <pid> <priority>: Changes the priority of the process with the pid provided to the priority provided");
+            println!("-P <R/D>: Prints the processes by the column provided");
+            println!("-S <column>: Sorts the processes by the column provided");
+            println!("-T: Prints the processes in a tree format");
             println!("-H: Prints the help menu");
             return;
         }
