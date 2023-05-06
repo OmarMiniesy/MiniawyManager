@@ -80,24 +80,6 @@ pub mod datastore_functions {
         let mut total_memory_consumed_percentage = used_memory_in_kb as f64 / total_memory_in_kb as f64 * 100.0;
         println!("Memory: {}% ({}/{})", total_memory_consumed_percentage, used_memory_in_kb, total_memory_in_kb);
 
-        // CPU
-        let mut cpu_usage: Vec<f32> = Vec::new();
-        for x in 1..3{
-            system.refresh_cpu(); // Refreshing CPU information.
-            if x == 2{
-                for cpu in system.cpus() {
-                    cpu_usage.push(cpu.cpu_usage());
-                }
-            }
-            std::thread::sleep(std::time::Duration::from_millis(500));
-        }
-        //print elements of the vector
-        let mut i = 0;
-        for x in cpu_usage.iter() {
-            print!("CPU {i}: {}%\n", x);
-            i = i + 1;
-        }
-
         // PROCESSES
         let mut total_processes = hashmap.keys().count();
         println!("Processes: {}", total_processes);
@@ -115,6 +97,24 @@ pub mod datastore_functions {
         let num_users = reader.lines().count();
         println!("There are {} users on the system", num_users);
         
+         // CPU
+         let mut cpu_usage: Vec<f32> = Vec::new();
+         for x in 1..3{
+             system.refresh_cpu(); // Refreshing CPU information.
+             if x == 2{
+                 for cpu in system.cpus() {
+                     cpu_usage.push(cpu.cpu_usage());
+                 }
+             }
+             std::thread::sleep(std::time::Duration::from_millis(500));
+         }
+         //print elements of the vector
+         let mut i = 0;
+         for x in cpu_usage.iter() {
+             print!("CPU {i}: {}%\n", x);
+             i = i + 1;
+         }
+
     }
 
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/tauri";
-import "./App.css";
+import "./Proctable.css";
 import React, { useMemo } from "react";
 import MaterialReactTable from "material-react-table";
 import {
@@ -78,6 +78,16 @@ function Proctable() {
     };
   }, [data]);
 
+  const [canKill, setCanKill] = useState();
+
+  useEffect(() => {
+    let interval = setInterval(setCanKill, 5000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, true);
+
   return (
     <div>
       <Button onClick={getProcesses}> Quick Start</Button>
@@ -86,13 +96,38 @@ function Proctable() {
         data={data}
         enableColumnFilterModes
         enableRowSelection
+        enableSorting={false}
         enablePagination={false}
         initialState={{
           density: "compact",
-          // pagination: { pageSize: 100 },
+          pagination: { pageSize: 100 },
         }}
         enableDensityToggle={false}
         enableColumnActions={false}
+        renderTopToolbarCustomActions={({ table }) => {
+          const handleKill = () => {
+            table.getSelectedRowModel().flatRows.map((row) => {
+              setCanKill(invoke("kill", { pid: row.original.pid }));
+            });
+          };
+
+          return (
+            <div style={{ display: "flex", gap: "0.5rem" }}>
+              <Button
+                color="error"
+                disabled={!table.getIsSomeRowsSelected()}
+                onClick={handleKill}
+                variant="contained"
+              >
+                Kill
+              </Button>
+
+              <Button className="permission" disabled={!canKill}>
+                NO PERMISSIONS
+              </Button>
+            </div>
+          );
+        }}
       />
     </div>
   );

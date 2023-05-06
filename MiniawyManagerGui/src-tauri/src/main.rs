@@ -130,7 +130,6 @@ fn hashmapFill() -> Vec<ProcessInfo>{
             'T' => state = "Stopped",
             _ => state = "Unknown",
         }
-
         hashmap.insert(stat.pid as u32, ProcessInfo {
             pid: stat.pid,
             name: stat.comm,
@@ -149,6 +148,7 @@ fn hashmapFill() -> Vec<ProcessInfo>{
             memory_usage: (0 as i32).to_string(),
             network_usage: (0 as i32).to_string(),
         });
+        
     }
     
     //for loop for sysinfo
@@ -193,6 +193,45 @@ fn getMemory() -> f64 {
     total_memory_consumed_percentage
 }
 
+#[tauri::command]
+fn killProc(pid: u32) -> bool{
+    let mut system = System::new_all();
+    system.refresh_all();
+    let p = Pid::from_u32(pid);
+
+    // get current process user
+    let process_user = getProcessFromTable(pid as i32);
+
+    // check if current user is root or process user
+    if let Some(username) = get_current_username(){
+        if username.to_string_lossy().to_string() == "root" || username.to_string_lossy().to_string() == process_user {
+            if let Some(process) = system.process(p) {
+                process.kill();
+                return true;
+            }
+        }
+    }
+    
+    
+    return false;
+}
+
+fn getProcessFromTable(pid: i32) -> String{
+
+    let mut username = String::new();
+
+    for process in all_processes().unwrap() {
+        let process = process.unwrap();
+        let stat = process.stat().unwrap();
+        let status = process.status().unwrap();
+        if(stat.pid == pid){
+            username = get_user_by_uid(status.ruid).unwrap().name().to_string_lossy().to_string();
+            return username;
+        }
+    }
+    return username;
+}
+
 
 #[derive(Serialize, Deserialize)]
 pub struct ProcessInfo {
@@ -217,7 +256,7 @@ pub struct ProcessInfo {
 fn main() {
 
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![hashmapFill, getCPU, getMemory, getSortedCpuUsage, getSortedMemUsage])
+        .invoke_handler(tauri::generate_handler![hashmapFill, getCPU, getMemory, getSortedCpuUsage, getSortedMemUsage, killProc])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
