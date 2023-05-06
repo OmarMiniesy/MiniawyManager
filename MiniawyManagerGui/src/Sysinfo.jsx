@@ -141,7 +141,7 @@ function Sysinfo() {
 
   return (
     <div>
-     <h2> System Info</h2>
+      <h2> System Info</h2>
       <div className="title1">
         <h1>CPU Usage:</h1>
       </div>
