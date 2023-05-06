@@ -69,11 +69,6 @@ pub mod flag_functions {
             //change priority of process with pid args[1] to args[2]
             change_priority(system, &args[1], &args[2], process_structure);
         }
-        else if args[0] == "-G" {
-            //runs the GUI version of Miniawy Manager
-            const guipath: &str = "./../MiniawyManagerGui/src-tauri/target/release/miniway-manager-gui";
-            let mut command = Command::new(guipath);
-        }
         // else if args[0] == "-SP"{
         //     //suspends the process with pid args[1]
         //     suspend_process(system, &args[1], process_structure);
@@ -88,7 +83,6 @@ pub mod flag_functions {
             println!("Miniawy Manager is a process manager that allows you to manage your processes in a simple and easy way.");
             println!("The following are the flags that you can use to manage your processes:");
             println!("\n");
-            println!("-G: Runs the GUI version of Miniawy Manager");
             println!("-A <pid>: Searches for the process with the pid provided");
             println!("-cP <pid> <priority>: Changes the priority of the process with the pid provided to the priority provided");
             println!("-F <column> <value>: Filters the processes by the column provided and the value provided");
