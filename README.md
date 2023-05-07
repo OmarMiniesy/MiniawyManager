@@ -72,6 +72,8 @@
 
 ### BUILD EXECUTABLE
 
+> Before running, install suitable dependancies with `npm i`. If any errors are faced, update the version of `node` or `npm`. This is done inside the `MiniawyManager/MiniawyManagerGui/src` directory.
+
 > Must first build the project to be able run the executable directly.
 
 > Navigate to `MiniawyManager/MiniawyManagerGui` and run `npm run tauri build`. If that doesn't work, try in `MiniawyManager/MiniawyManagerGui/src`.
