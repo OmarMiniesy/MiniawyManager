@@ -66,13 +66,13 @@
 
 > To run this project, make sure to be inside `MiniawyManager/MiniawyManagerGui` directory.
 
-> Before running, install suitable dependancies with `npm i`. If any errors are faced, update the version of `node` or `npm`. This is done inside the `MiniawyManager/MiniawyManagerGui/src` directory.
+> Before running, install suitable dependancies with `npm i`. If any errors are faced, update the version of `node` or `npm`. This is done inside the `MiniawyManager/MiniawyManagerGui/` directory.
 
 > To run and view the development environment be in `MiniawyManager/MiniawyManagerGui` directory and enter `npm run tauri dev`.
 
 ### BUILD EXECUTABLE
 
-> Before running, install suitable dependancies with `npm i`. If any errors are faced, update the version of `node` or `npm`. This is done inside the `MiniawyManager/MiniawyManagerGui/src` directory.
+> Before running, install suitable dependancies with `npm i`. If any errors are faced, update the version of `node` or `npm`. This is done inside the `MiniawyManager/MiniawyManagerGui/` directory.
 
 > Must first build the project to be able run the executable directly.
 
