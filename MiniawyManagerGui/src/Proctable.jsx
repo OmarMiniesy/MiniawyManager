@@ -70,6 +70,10 @@ function Proctable() {
     setData(await invoke("hashmapFill"));
   }
 
+  async function killProcess(pid) {
+    setCanKill(await invoke("killProc", pid));
+  }
+
   useEffect(() => {
     let interval = setInterval(getProcesses, 5000);
 
@@ -78,15 +82,15 @@ function Proctable() {
     };
   }, [data]);
 
-  const [canKill, setCanKill] = useState();
+  const [canKill, setCanKill] = useState(false);
 
   useEffect(() => {
-    let interval = setInterval(setCanKill, 5000);
+    let interval = setInterval(setCanKill, 10000);
 
     return () => {
       clearInterval(interval);
     };
-  }, true);
+  }, false);
 
   return (
     <div>
@@ -107,7 +111,7 @@ function Proctable() {
         renderTopToolbarCustomActions={({ table }) => {
           const handleKill = () => {
             table.getSelectedRowModel().flatRows.map((row) => {
-              setCanKill(invoke("kill", { pid: row.original.pid }));
+              killProcess({ pid: row.original.pid });
             });
           };
 
@@ -123,7 +127,7 @@ function Proctable() {
               </Button>
 
               <Button className="permission" disabled={!canKill}>
-                NO PERMISSIONS
+                VALID PERMISSIONS
               </Button>
             </div>
           );
