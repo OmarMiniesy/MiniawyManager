@@ -40,6 +40,7 @@
 -N <name>: Searches for the process with the name provided
 -O: Prints the overall system information and consumption
 -K <pid>: Kills the process with the pid provided
+-KR <pid>: Kills the process with the pid provided and all its children recursively
 -cP <pid> <priority>: Changes the priority of the process with the pid provided to the priority provided
 -H: Prints the help menu
 ```
